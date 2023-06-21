@@ -1,0 +1,39 @@
+name: Go
+
+on: [push, pull_request]
+
+jobs:
+
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        go: ['1.18', '1.19', '1.20']
+      fail-fast: false
+    env:
+      OS: ${{ matrix.os }}
+      GO: ${{ matrix.go }}
+    steps:
+      - if: startsWith(matrix.os, 'macos')
+        run: brew update
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+
+      - uses: actions/checkout@v2
+
+      - name: 'Tags: default'
+        run: go test -race -v -tags "" .
+
+      - name: 'Tags: full'
+        run: go test -race -v -tags "sqlite_allow_uri_authority sqlite_app_armor sqlite_column_metadata sqlite_foreign_keys sqlite_fts5 sqlite_icu sqlite_introspect sqlite_json sqlite_math_functions sqlite_os_trace sqlite_preupdate_hook sqlite_secure_delete sqlite_see sqlite_stat4 sqlite_trace sqlite_unlock_notify sqlite_userauth sqlite_vacuum_incr sqlite_vtable" .
+
+      - name: 'Tags: vacuum'
+        run: go test -race -v -tags "sqlite_vacuum_full" .
