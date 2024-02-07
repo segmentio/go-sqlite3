@@ -11,6 +11,23 @@ Latest stable version is v1.14 or later, not v2.
 
 ~~**NOTE:** The increase to v2 was an accident. There were no major changes or features.~~
 
+## Segment Patch status
+
+This is Segment's fork of mattn/go-sqlite3. Prior to February 2024, this fork
+contained several changes:
+
+- Fix to a race condition; this was added in 2018 and merged upstream.
+- Add a pre-update hook; this was merged _behind a build tag_
+- Various changes to update the build infrastructure or the sqlite version.
+
+As of February 2024, _the only change from upstream removes the build tag_ from
+the pre-update hook. This is to preserve backward compatibility, and to allow us
+to update our Segment internal code without needing to add a Go build tag to
+every project that includes this library.
+
+In the future, we should just be able to merge in upstream/master, or rebase our
+one commit on top of upstream/master, and just keep force pushing.
+
 # Description
 
 A sqlite3 driver that conforms to the built-in database/sql interface.
