@@ -25,6 +25,9 @@ the pre-update hook. This is to preserve backward compatibility, and to allow us
 to update our Segment internal code without needing to add a Go build tag to
 every project that includes this library.
 
+In the future, we should just be able to merge in upstream/master, or rebase our
+one commit on top of upstream/master, and just keep force pushing.
+
 # Description
 
 A sqlite3 driver that conforms to the built-in database/sql interface.
