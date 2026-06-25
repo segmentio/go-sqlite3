@@ -23,7 +23,7 @@ jobs:
       - if: startsWith(matrix.os, 'macos')
         run: brew update
 
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492  # v2
         with:
           go-version: ${{ matrix.go }}
 
@@ -35,7 +35,7 @@ jobs:
         run: |
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5  # v2
 
       - name: 'Tags: default'
         run: go-acc . -- -race -v -tags ""
@@ -50,14 +50,14 @@ jobs:
         run: go-acc . -- -race -v -tags "sqlite_vacuum_full"
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@29386c70ef20e286228c72b668a06fd0e8399192  # v1
         with:
           env_vars: OS,GO
           file: coverage.txt
 
   test-windows:
     name: Test for Windows
-    runs-on: windows-latest
+    runs-on: windows-latest-large
     defaults:
       run:
         shell: bash
@@ -70,14 +70,14 @@ jobs:
       OS: windows-latest
       GO: ${{ matrix.go }}
     steps:
-      - uses: msys2/setup-msys2@v2
+      - uses: msys2/setup-msys2@66cd2cce69caa17b53920067426061ca1de3a884  # v2
         with:
           update: true
           install: mingw-w64-x86_64-toolchain mingw-w64-x86_64-sqlite3
           msystem: MINGW64
           path-type: inherit
 
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492  # v2
         with:
           go-version: ${{ matrix.go }}
 
@@ -86,7 +86,7 @@ jobs:
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
         shell: msys2 {0}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5  # v2
 
       - name: 'Tags: default'
         run: go build -race -v -tags ""
@@ -107,7 +107,7 @@ jobs:
         shell: msys2 {0}
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@f32b3a3741e1053eb607407145bc9619351dc93b  # v2
         with:
           env_vars: OS,GO
           file: coverage.txt
